@@ -18,7 +18,7 @@ class EnterativeNetwork {
   }
 
   void ping(void Function(NetworkStatus) onAfterPing) async {
-    netObject.get('/').catchError((error) {
+    netObject.get('/ping').catchError((error) {
       onAfterPing(NetworkStatus.offline);
     }).then((value) {
       onAfterPing(NetworkStatus.ready);
@@ -49,8 +49,6 @@ class EnterativeNetwork {
   Dio get emptyNetObject => Dio();
 
   Dio get netObject {
-    // print(_settingsMap['environment']);
-    // if (_settingsMap['environment'] == 'dev') return emptyNetObject;
     var url = _settingsMap['api']['url'];
     print(url);
     return Dio(BaseOptions(baseUrl: url));

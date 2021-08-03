@@ -1,6 +1,5 @@
-environment: prd
 api:
-  url: https://sandbox.enterativeapk.tk:5000
+  url: http://localhost/api
 affiliates:
   zix_informatica:
     img: 'assets/img/zix_informatica.jpeg'
