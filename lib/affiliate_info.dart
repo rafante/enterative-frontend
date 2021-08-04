@@ -1,18 +1,18 @@
 import 'package:yaml/yaml.dart';
 
 class AffiliateInfo {
-  late String imgPath;
+  late int id;
+  late String name;
+  late String imgUrl;
 
-  AffiliateInfo._();
+  AffiliateInfo._({required this.id, required this.imgUrl, required this.name});
 
-  static AffiliateInfo? getFromRoute(String settingsYaml, String affiliateId) {
-    var doc = loadYaml(settingsYaml);
-    var id = affiliateId.replaceAll('/', '');
-    var info = doc['affiliates'][id];
-    if (info == null) return null;
-    var affiliateInfo = AffiliateInfo._();
-    affiliateInfo.imgPath = info['img']!;
-
-    return affiliateInfo;
+  static AffiliateInfo? getFromId(String affiliateId) {}
+  factory AffiliateInfo.fromMap(Map map) {
+    return AffiliateInfo._(
+      id: map['id'],
+      name: map['name'],
+      imgUrl: map['imgUrl'],
+    );
   }
 }

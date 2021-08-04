@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:frontend/notifiers/network_notifier.dart';
-import 'package:yaml/yaml.dart';
+// import 'package:yaml/yaml.dart';
 import 'package:dio/dio.dart';
 
 class EnterativeNetwork {
-  late YamlMap _settingsMap;
+  // late YamlMap _settingsMap;
   static EnterativeNetwork? _instance;
   static EnterativeNetwork get instance {
     if (_instance == null) _instance = EnterativeNetwork._();
@@ -14,7 +14,7 @@ class EnterativeNetwork {
 
   EnterativeNetwork._();
   void initialize(String settingsString) {
-    this._settingsMap = loadYaml(settingsString);
+    // this._settingsMap = loadYaml(settingsString);
   }
 
   void ping(void Function(NetworkStatus) onAfterPing) async {
@@ -49,7 +49,7 @@ class EnterativeNetwork {
   Dio get emptyNetObject => Dio();
 
   Dio get netObject {
-    var url = _settingsMap['api']['url'];
+    var url = 'http://localhost/api';
     print(url);
     return Dio(BaseOptions(baseUrl: url));
   }

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/affiliate_info.dart';
@@ -12,15 +13,16 @@ import 'package:frontend/pages/widgets/facade_pitcture.dart';
 import 'package:frontend/pages/widgets/mentes_que_pensam_logo.dart';
 import 'package:frontend/pages/widgets/phones.dart';
 import 'package:frontend/pages/widgets/shop_type.dart';
+import 'package:frontend/services/enterative_network.dart';
 import 'package:frontend/widgets/enterative_input.dart';
 import 'package:frontend/utils/screen.dart';
 import 'package:responsive_ui/responsive_ui.dart';
 
 class AffiliatePage extends StatefulWidget {
   static String routeName = '/affiliate';
-  final String affiliateId;
+  final String affiliateRoute;
 
-  AffiliatePage(this.affiliateId);
+  AffiliatePage(this.affiliateRoute);
 
   @override
   _AffiliatePageState createState() => _AffiliatePageState();
@@ -32,16 +34,16 @@ class _AffiliatePageState extends State<AffiliatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: rootBundle.loadString('assets/settings.yaml', cache: false),
+    var affiliateId = widget.affiliateRoute.replaceAll('\/', '');
+    return FutureBuilder<Response>(
+      future: EnterativeNetwork.instance.netObject.get('/affiliate/retrieve?affiliateId=$affiliateId'),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done)
           return Column(
-            children: [LinearProgressIndicator()],
+            children: [Container(child: LinearProgressIndicator(), height: 5)],
           );
-        var afInfo = AffiliateInfo.getFromRoute(snapshot.data!, widget.affiliateId);
-        if (afInfo == null) return NotFoundAffiliatePage();
-        affiliateInfo = afInfo;
+        if (snapshot.data?.data?.isEmpty) return NotFoundAffiliatePage();
+        affiliateInfo = AffiliateInfo.fromMap(snapshot.data!.data);
         return mainWidget();
       },
     );
@@ -82,7 +84,10 @@ class _AffiliatePageState extends State<AffiliatePage> {
         children: [
           MentesQuePensamLogo(45),
           Spacer(),
-          AffiliatedLogo(height: 130, imgPath: affiliateInfo.imgPath),
+          AffiliatedLogo(
+            height: 130,
+            imgUrl: '/api/files/${affiliateInfo.imgUrl}',
+          ),
           Spacer(),
         ],
       ),

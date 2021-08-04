@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/services/enterative_network.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NotFoundAffiliatePage extends StatelessWidget {
   @override
@@ -8,15 +9,9 @@ class NotFoundAffiliatePage extends StatelessWidget {
     return Material(
         color: Colors.black87,
         child: Center(
-            child: Column(
-          children: [
-            Text('Não encontrado'),
-            ElevatedButton(
-                onPressed: () {
-                  uploadTest();
-                },
-                child: Text('Upload'))
-          ],
+            child: Text(
+          'Não encontrado',
+          style: GoogleFonts.abel(fontSize: 40, color: Colors.white),
         )));
   }
 
